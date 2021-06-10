@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<head>
+    <title>WebRTC Video Conference</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>WebRTC Video Conference</h1>
+
+    <div id="selectName">
+        <label> Type your name</label>
+        <input id="username" type="text" required />
+        <!-- <button id="checkName">Check</button> -->
+    </div>
+
+    <div id="selectRoom">
+        <label>Type the room number</label>
+        <input id="roomNumber" type="text" />
+        <button id="goRoom">Go</button>
+        <p> Currently, the creator of a room will be the teacher. This logic can be changed in the future
+        </p>
+        <a href="https://github.com/qhuy4119/webrtc-video-broadcast"> Github repo</a>
+    </div>
+    
+    <div id="consultingRoom" style="display:none">
+        <button id="show/hide localVideo">Show/Hide local video</button>
+        <!-- <video id="localVideo" poster="http://rmhc.org.sg/wp-content/uploads/tvc//vidloading.gif" autoplay muted controls></video> -->
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script src="client.js"></script>
+</body>
