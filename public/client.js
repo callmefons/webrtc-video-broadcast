@@ -251,7 +251,7 @@ socket.on('candidate', function (event, sender_id) {
 
 function onTrackHandler(event) {
 
-    if (!receivedStreamsId.includes(event.streams[0].id)) {
+    if (!receivedStreamsId.includes(event.streams[0].id) && !isBroadcaster) {
         createVideo(event.streams[0], isBroadcaster ? student_username : broadcaster_username)
         receivedStreamsId.push(event.streams[0].id);
     }  
