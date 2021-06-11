@@ -1,12 +1,12 @@
 'use strict'
 // getting dom elements
-// var divSelectRoom = document.getElementById("selectRoom");
+var divSelectRoom = document.getElementById("selectRoom");
+var divSelectName = document.getElementById("selectName")
+var inputRoomNumber = document.getElementById("roomNumber");
+var btnGoRoom = document.getElementById("goRoom");
+var btnShowHideLocalVideo = document.getElementById("show/hide localVideo");
+var inputUsername = document.getElementById("username");
 var divConsultingRoom = document.getElementById("consultingRoom");
-// var divSelectName = document.getElementById("selectName")
-// var inputRoomNumber = document.getElementById("roomNumber");
-// var btnGoRoom = document.getElementById("goRoom");
-// var btnShowHideLocalVideo = document.getElementById("show/hide localVideo");
-// var inputUsername = document.getElementById("username");
 var localVideo = document.getElementById("localVideo");
 
 
@@ -47,28 +47,28 @@ var myUsername;
 // Let's do this
 var socket = io();
 
-// btnGoRoom.onclick = function () {
-    // if (inputRoomNumber.value === '') {
-    //     alert("Please type a room number")
-    // } 
-    // else if (inputUsername.value === '') {
-    //     alert("Please choose a username")
-    // }
-    // else {
-    //     roomNumber = inputRoomNumber.value;
-    //     myUsername = inputUsername.value;
-    //     socket.emit('create or join', roomNumber, myUsername);
-    //     divSelectRoom.style = "display: none;";
-    //     divConsultingRoom.style = "display: block;";
-    //     divSelectName.style = "display: none;";
-    // }
+btnGoRoom.onclick = function () {
+    if (inputRoomNumber.value === '') {
+        alert("Please type a room number")
+    } 
+    else if (inputUsername.value === '') {
+        alert("Please choose a username")
+    }
+    else {
+        roomNumber = inputRoomNumber.value;
+        myUsername = inputUsername.value;
+        socket.emit('create or join', roomNumber, myUsername);
+        divSelectRoom.style = "display: none;";
+        divConsultingRoom.style = "display: block;";
+        divSelectName.style = "display: none;";
+    }
 
     // roomNumber = "fonroom";
     // myUsername = "fah";
     // socket.emit('create or join', roomNumber, myUsername);
     // divSelectRoom.style = "display: none;";
     // divConsultingRoom.style = "display: block;";
-// };
+};
 
 // btnShowHideLocalVideo.onclick = function () {
 //     if (showLocalVideo){
@@ -85,7 +85,7 @@ var socket = io();
 
 
 ///////////////////////////////// Broadcaster only message handlers
-socket.on('created', function (room, username) {
+socket.on('created', function () {
     navigator.mediaDevices.getUserMedia(streamConstraints).then(function (stream) {
         localVideo = createVideo(stream, "You", true);
         localStream = stream;
@@ -98,7 +98,7 @@ socket.on('created', function (room, username) {
     console.log(socket.id, ' (me) is the broadcaster');
 });
 
-socket.on('ready', function (room, username, student_id) {
+socket.on('ready', function (student_id) {
     if (isBroadcaster) {
         console.log("Student_id: ", student_id, " has just joined the room. Let's start connecting with him/her")
         tempConnection = new RTCPeerConnection(servers);
@@ -106,7 +106,7 @@ socket.on('ready', function (room, username, student_id) {
         tempConnection.oniceconnectionstatechange = () => {
                 console.log("*** ICE connection state changed to " + String(rtcPeerConnections[student_id].iceConnectionState));
         }
-        tempConnection.onicecandidate = onIceCandidate(room);
+        tempConnection.onicecandidate = onIceCandidate;
         // The local ICE layer calls your icecandidate event handler
         // when it needs you to transmit an ICE candidate to the other peer,
         // through your signaling server
@@ -121,8 +121,8 @@ socket.on('ready', function (room, username, student_id) {
                 socket.emit('offer', {
                     type: 'offer',
                     sdp: sessionDescription,
-                    room: room,
-                }, student_id, username);
+                    room: roomNumber,
+                }, student_id, myUsername);
             })
             .catch(error => {
                 console.log(error)
@@ -157,23 +157,23 @@ socket.on('username', function(sender_username) {
 })
 
 /////////////////////////// Student only message handlers
-socket.on('joined', function (room, username) {
+socket.on('joined', function () {
     navigator.mediaDevices.getUserMedia(streamConstraints).then(function (stream) {
         localStream = stream;
         // localVideo = createVideo(stream, "You", true);
         isBroadcaster = false;
-        socket.emit('ready', room, username, socket.id);
+        socket.emit('ready', socket.id);
     }).catch(function (err) {
         console.log('An error ocurred when accessing media devices', err);
     });
     console.log(socket.id, '(me) is a student');
 });
 
-socket.on('offer', function (event, sender_username, room, username) {
+socket.on('offer', function (event, sender_username) {
     if (!isBroadcaster) {
         broadcaster_username = sender_username;
         rtcPeerConnection = new RTCPeerConnection(servers);
-        rtcPeerConnection.onicecandidate = onIceCandidate(room);
+        rtcPeerConnection.onicecandidate = onIceCandidate(roomNumber);
         rtcPeerConnection.ontrack = onTrackHandler;
         rtcPeerConnection.oniceconnectionstatechange = () => {
                 console.log("*** ICE connection state changed to " + String(rtcPeerConnection.iceConnectionState));
@@ -186,7 +186,7 @@ socket.on('offer', function (event, sender_username, room, username) {
             localStream.getTracks().forEach(function(track)
             {
                 rtcPeerConnection.addTrack(track, localStream)
-                socket.emit("username", username)
+                socket.emit("username", myUsername)
                 
             })
         })
@@ -218,13 +218,13 @@ socket.on('offer', function (event, sender_username, room, username) {
 
 // when icecandidate event is fired after a call of setLocalDescription(). This handler will send ice candidate 
 // to the other end of the call
-function onIceCandidate(event, room) {
+function onIceCandidate(event) {
     if (event.candidate) {
         console.log('sending ice candidate: ' + JSON.stringify(event.candidate));
         socket.emit('candidate', {
             type: 'candidate',
             candidate: event.candidate,
-            room: room
+            room: roomNumber
         }, socket.id)
     }
 }
