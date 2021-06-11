@@ -2,11 +2,11 @@
 // getting dom elements
 var divSelectRoom = document.getElementById("selectRoom");
 var divConsultingRoom = document.getElementById("consultingRoom");
-var divSelectName = document.getElementById("selectName")
-var inputRoomNumber = document.getElementById("roomNumber");
+// var divSelectName = document.getElementById("selectName")
+// var inputRoomNumber = document.getElementById("roomNumber");
 var btnGoRoom = document.getElementById("goRoom");
-var btnShowHideLocalVideo = document.getElementById("show/hide localVideo");
-var inputUsername = document.getElementById("username");
+// var btnShowHideLocalVideo = document.getElementById("show/hide localVideo");
+// var inputUsername = document.getElementById("username");
 var localVideo = document.getElementById("localVideo");
 
 
@@ -48,42 +48,49 @@ var myUsername;
 var socket = io();
 
 btnGoRoom.onclick = function () {
-    if (inputRoomNumber.value === '') {
-        alert("Please type a room number")
-    } 
-    else if (inputUsername.value === '') {
-        alert("Please choose a username")
-    }
-    else {
-        roomNumber = inputRoomNumber.value;
-        myUsername = inputUsername.value;
-        socket.emit('create or join', roomNumber);
-        divSelectRoom.style = "display: none;";
-        divConsultingRoom.style = "display: block;";
-        divSelectName.style = "display: none;";
-    }
+    // if (inputRoomNumber.value === '') {
+    //     alert("Please type a room number")
+    // } 
+    // else if (inputUsername.value === '') {
+    //     alert("Please choose a username")
+    // }
+    // else {
+    //     roomNumber = inputRoomNumber.value;
+    //     myUsername = inputUsername.value;
+    //     socket.emit('create or join', roomNumber, myUsername);
+    //     divSelectRoom.style = "display: none;";
+    //     divConsultingRoom.style = "display: block;";
+    //     divSelectName.style = "display: none;";
+    // }
+
+    roomNumber = "fonroom";
+    myUsername = "fah";
+    socket.emit('create or join', roomNumber, myUsername);
+    divSelectRoom.style = "display: none;";
+    divConsultingRoom.style = "display: block;";
 };
 
-btnShowHideLocalVideo.onclick = function () {
-    if (showLocalVideo){
-        localVideo.style.display = "none";
-        showLocalVideo = false;
-    }
-    else {
-        localVideo.style.display = "block";
-        showLocalVideo = true;
-    }
-};
+// btnShowHideLocalVideo.onclick = function () {
+//     if (showLocalVideo){
+//         localVideo.style.display = "none";
+//         showLocalVideo = false;
+//     }
+//     else {
+//         localVideo.style.display = "block";
+//         showLocalVideo = true;
+//     }
+// };
 
 // message handlers
 
 
 ///////////////////////////////// Broadcaster only message handlers
-socket.on('created', function (room) {
+socket.on('created', function (room, username) {
     navigator.mediaDevices.getUserMedia(streamConstraints).then(function (stream) {
         localVideo = createVideo(stream, "You", true);
         localStream = stream;
         isBroadcaster = true;
+        myUsername = username;
     }).catch(function (err) {
         console.log('An error ocurred when accessing media devices', err);
         alert("Having error opening your camera and/or microphone: ", err.message);
@@ -151,11 +158,12 @@ socket.on('username', function(sender_username) {
 })
 
 /////////////////////////// Student only message handlers
-socket.on('joined', function (room) {
+socket.on('joined', function (room, username) {
     navigator.mediaDevices.getUserMedia(streamConstraints).then(function (stream) {
         localStream = stream;
         // localVideo = createVideo(stream, "You", true);
         isBroadcaster = false;
+        myUsername = username;
         socket.emit('ready', roomNumber, socket.id);
     }).catch(function (err) {
         console.log('An error ocurred when accessing media devices', err);
@@ -263,6 +271,7 @@ function createVideo(src, caption, isMuted)
     let fig = document.createElement("figure")
 
     let video = document.createElement("video");
+    video.setAttribute("id", "localVideo");
     video.srcObject = src;
     video.autoplay = true;
     video.controls = true;
