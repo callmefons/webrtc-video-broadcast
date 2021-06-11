@@ -91,6 +91,7 @@ socket.on('created', function (room, username) {
         localStream = stream;
         isBroadcaster = true;
         myUsername = username;
+        roomNumber = room
     }).catch(function (err) {
         console.log('An error ocurred when accessing media devices', err);
         alert("Having error opening your camera and/or microphone: ", err.message);
@@ -164,6 +165,7 @@ socket.on('joined', function (room, username) {
         // localVideo = createVideo(stream, "You", true);
         isBroadcaster = false;
         myUsername = username;
+        roomNumber = room
         socket.emit('ready', roomNumber, socket.id);
     }).catch(function (err) {
         console.log('An error ocurred when accessing media devices', err);
