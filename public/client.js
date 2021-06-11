@@ -5,7 +5,7 @@ var divConsultingRoom = document.getElementById("consultingRoom");
 var divSelectName = document.getElementById("selectName")
 var inputRoomNumber = document.getElementById("roomNumber");
 var btnGoRoom = document.getElementById("goRoom");
-// var btnShowHideLocalVideo = document.getElementById("show/hide localVideo");
+var btnShowHideLocalVideo = document.getElementById("show/hide localVideo");
 var inputUsername = document.getElementById("username");
 var localVideo = document.getElementById("localVideo");
 
@@ -64,16 +64,16 @@ btnGoRoom.onclick = function () {
     }
 };
 
-// btnShowHideLocalVideo.onclick = function () {
-//     if (showLocalVideo){
-//         localVideo.style.display = "none";
-//         showLocalVideo = false;
-//     }
-//     else {
-//         localVideo.style.display = "block";
-//         showLocalVideo = true;
-//     }
-// };
+btnShowHideLocalVideo.onclick = function () {
+    if (showLocalVideo){
+        localVideo.style.display = "none";
+        showLocalVideo = false;
+    }
+    else {
+        localVideo.style.display = "block";
+        showLocalVideo = true;
+    }
+};
 
 // message handlers
 
@@ -260,23 +260,20 @@ function onTrackHandler(event) {
 
 function createVideo(src, caption, isMuted)
 {
-    // let fig = document.createElement("figure")
-    let fig = document.createElement("div")
+    let fig = document.createElement("figure")
 
     let video = document.createElement("video");
-    video.setAttribute("id", "localVideo");
     video.srcObject = src;
     video.autoplay = true;
     video.controls = true;
     video.muted = isMuted;
     video.poster = "http://rmhc.org.sg/wp-content/uploads/tvc//vidloading.gif"
-
     fig.appendChild(video)
     
-    // let figCaption = document.createElement("figcaption")
-    // let text = document.createTextNode(caption)
-    // figCaption.appendChild(text)
-    // fig.appendChild(figCaption)
+    let figCaption = document.createElement("figcaption")
+    let text = document.createTextNode(caption)
+    figCaption.appendChild(text)
+    fig.appendChild(figCaption)
 
     divConsultingRoom.appendChild(fig)
     return fig;
