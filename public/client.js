@@ -1,7 +1,7 @@
 'use strict'
 // getting dom elements
 // var divSelectRoom = document.getElementById("selectRoom");
-var divConsultingRoom = document.getElementById("consultingRoom");
+// var divConsultingRoom = document.getElementById("consultingRoom");
 // var divSelectName = document.getElementById("selectName")
 // var inputRoomNumber = document.getElementById("roomNumber");
 // var btnGoRoom = document.getElementById("goRoom");
