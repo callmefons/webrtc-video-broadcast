@@ -1,10 +1,10 @@
 'use strict'
 // getting dom elements
-var divSelectRoom = document.getElementById("selectRoom");
+// var divSelectRoom = document.getElementById("selectRoom");
 var divConsultingRoom = document.getElementById("consultingRoom");
 // var divSelectName = document.getElementById("selectName")
 // var inputRoomNumber = document.getElementById("roomNumber");
-var btnGoRoom = document.getElementById("goRoom");
+// var btnGoRoom = document.getElementById("goRoom");
 // var btnShowHideLocalVideo = document.getElementById("show/hide localVideo");
 // var inputUsername = document.getElementById("username");
 var localVideo = document.getElementById("localVideo");
@@ -47,7 +47,7 @@ var myUsername;
 // Let's do this
 var socket = io();
 
-btnGoRoom.onclick = function () {
+// btnGoRoom.onclick = function () {
     // if (inputRoomNumber.value === '') {
     //     alert("Please type a room number")
     // } 
@@ -63,12 +63,12 @@ btnGoRoom.onclick = function () {
     //     divSelectName.style = "display: none;";
     // }
 
-    roomNumber = "fonroom";
-    myUsername = "fah";
-    socket.emit('create or join', roomNumber, myUsername);
-    divSelectRoom.style = "display: none;";
-    divConsultingRoom.style = "display: block;";
-};
+    // roomNumber = "fonroom";
+    // myUsername = "fah";
+    // socket.emit('create or join', roomNumber, myUsername);
+    // divSelectRoom.style = "display: none;";
+    // divConsultingRoom.style = "display: block;";
+// };
 
 // btnShowHideLocalVideo.onclick = function () {
 //     if (showLocalVideo){
