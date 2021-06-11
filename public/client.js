@@ -90,8 +90,6 @@ socket.on('created', function (room, username) {
         localVideo = createVideo(stream, "You", true);
         localStream = stream;
         isBroadcaster = true;
-        myUsername = username;
-        roomNumber = room
     }).catch(function (err) {
         console.log('An error ocurred when accessing media devices', err);
         alert("Having error opening your camera and/or microphone: ", err.message);
@@ -100,7 +98,7 @@ socket.on('created', function (room, username) {
     console.log(socket.id, ' (me) is the broadcaster');
 });
 
-socket.on('ready', function (student_id) {
+socket.on('ready', function (room, username, student_id) {
     if (isBroadcaster) {
         console.log("Student_id: ", student_id, " has just joined the room. Let's start connecting with him/her")
         tempConnection = new RTCPeerConnection(servers);
@@ -108,7 +106,7 @@ socket.on('ready', function (student_id) {
         tempConnection.oniceconnectionstatechange = () => {
                 console.log("*** ICE connection state changed to " + String(rtcPeerConnections[student_id].iceConnectionState));
         }
-        tempConnection.onicecandidate = onIceCandidate;
+        tempConnection.onicecandidate = onIceCandidate(room);
         // The local ICE layer calls your icecandidate event handler
         // when it needs you to transmit an ICE candidate to the other peer,
         // through your signaling server
@@ -123,8 +121,8 @@ socket.on('ready', function (student_id) {
                 socket.emit('offer', {
                     type: 'offer',
                     sdp: sessionDescription,
-                    room: roomNumber
-                }, student_id, myUsername);
+                    room: room,
+                }, student_id, username);
             })
             .catch(error => {
                 console.log(error)
@@ -164,20 +162,18 @@ socket.on('joined', function (room, username) {
         localStream = stream;
         // localVideo = createVideo(stream, "You", true);
         isBroadcaster = false;
-        myUsername = username;
-        roomNumber = room
-        socket.emit('ready', roomNumber, socket.id);
+        socket.emit('ready', room, username, socket.id);
     }).catch(function (err) {
         console.log('An error ocurred when accessing media devices', err);
     });
     console.log(socket.id, '(me) is a student');
 });
 
-socket.on('offer', function (event, sender_username) {
+socket.on('offer', function (event, sender_username, room, username) {
     if (!isBroadcaster) {
         broadcaster_username = sender_username;
         rtcPeerConnection = new RTCPeerConnection(servers);
-        rtcPeerConnection.onicecandidate = onIceCandidate;
+        rtcPeerConnection.onicecandidate = onIceCandidate(room);
         rtcPeerConnection.ontrack = onTrackHandler;
         rtcPeerConnection.oniceconnectionstatechange = () => {
                 console.log("*** ICE connection state changed to " + String(rtcPeerConnection.iceConnectionState));
@@ -190,7 +186,7 @@ socket.on('offer', function (event, sender_username) {
             localStream.getTracks().forEach(function(track)
             {
                 rtcPeerConnection.addTrack(track, localStream)
-                socket.emit("username", myUsername)
+                socket.emit("username", username)
                 
             })
         })
@@ -222,13 +218,13 @@ socket.on('offer', function (event, sender_username) {
 
 // when icecandidate event is fired after a call of setLocalDescription(). This handler will send ice candidate 
 // to the other end of the call
-function onIceCandidate(event) {
+function onIceCandidate(event, room) {
     if (event.candidate) {
         console.log('sending ice candidate: ' + JSON.stringify(event.candidate));
         socket.emit('candidate', {
             type: 'candidate',
             candidate: event.candidate,
-            room: roomNumber
+            room: room
         }, socket.id)
     }
 }

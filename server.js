@@ -34,8 +34,8 @@ io.on('connection', function (socket) {
         
     });
 
-    socket.on('ready', function (room, sender_id){
-        socket.broadcast.to(BROADCASTER_ID).emit('ready', String(sender_id));
+    socket.on('ready', function (room, username, sender_id){
+        socket.broadcast.to(BROADCASTER_ID).emit('ready', room, username, String(sender_id));
     });
 
     socket.on('candidate', function (event, sender_id){
@@ -50,7 +50,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('offer', function(event, receiver_id, sender_username){
-        socket.broadcast.to(receiver_id).emit('offer',event.sdp, sender_username);
+        socket.broadcast.to(receiver_id).emit('offer',event.sdp, sender_username, event.room, sender_username);
     });
 
     socket.on('username', function(student_username){
