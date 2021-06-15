@@ -14,7 +14,7 @@ var BROADCASTER_ID;
 io.on('connection', function (socket) {
     console.log('a user connected: ', socket.id);
 
-    socket.on('create or join', function (username, roomnumber) {
+    socket.on('create or join', function (username, room) {
         console.log('create or join username ', username);
         console.log('create or join to room ', room);
         
@@ -26,10 +26,10 @@ io.on('connection', function (socket) {
         if (numClients == 0) {
             BROADCASTER_ID = socket.id;
             socket.join(room);
-            socket.emit('created', username, roomnumber);
+            socket.emit('created', username, room);
         } else {
             socket.join(room);
-            socket.emit('joined', username, roomnumber);
+            socket.emit('joined', username, room);
         }
         console.log("The current sockets are: ", Object.keys(io.sockets.adapter.rooms[room].sockets))
         
