@@ -60,12 +60,6 @@ btnGoRoom.onclick = function () {
         socket.emit('create or join', roomNumber, myUsername);
         hideUI();
     }
-
-    // roomNumber = "fonroom";
-    // myUsername = "fah";
-    // socket.emit('create or join', roomNumber, myUsername);
-    // divSelectRoom.style = "display: none;";
-    // divConsultingRoom.style = "display: block;";
 };
 
 // btnShowHideLocalVideo.onclick = function () {
@@ -80,7 +74,6 @@ btnGoRoom.onclick = function () {
 // };
 
 // message handlers
-
 function hideUI(){
     divSelectRoom.style = "display: none;";
     divConsultingRoom.style = "display: block;";
@@ -88,13 +81,15 @@ function hideUI(){
 }
 
 ///////////////////////////////// Broadcaster only message handlers
-socket.on('created', function () {
+socket.on('created', function (username, roomnumber) {
     navigator.mediaDevices.getUserMedia(streamConstraints).then(function (stream) {
+        myUsername = username;
+        roomNumber = roomnumber;
+        hideUI();
+
         localVideo = createVideo(stream, "You", true);
         localStream = stream;
         isBroadcaster = true;
-        hideUI();
-        
     }).catch(function (err) {
         console.log('An error ocurred when accessing media devices', err);
         alert("Having error opening your camera and/or microphone: ", err.message);
@@ -162,13 +157,16 @@ socket.on('username', function(sender_username) {
 })
 
 /////////////////////////// Student only message handlers
-socket.on('joined', function () {
+socket.on('joined', function (username, roomnumber) {
     navigator.mediaDevices.getUserMedia(streamConstraints).then(function (stream) {
+        myUsername = username;
+        roomNumber = roomnumber;
+        hideUI();
+
         localStream = stream;
         // localVideo = createVideo(stream, "You", true);
         isBroadcaster = false;
         socket.emit('ready', socket.id);
-        hideUI();
     }).catch(function (err) {
         console.log('An error ocurred when accessing media devices', err);
     });
