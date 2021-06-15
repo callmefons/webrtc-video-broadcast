@@ -81,12 +81,8 @@ function hideUI(){
 }
 
 ///////////////////////////////// Broadcaster only message handlers
-socket.on('created', function (username, roomnumber) {
+socket.on('created', function () {
     navigator.mediaDevices.getUserMedia(streamConstraints).then(function (stream) {
-        myUsername = username;
-        roomNumber = roomnumber;
-        hideUI();
-
         localVideo = createVideo(stream, "You", true);
         localStream = stream;
         isBroadcaster = true;
@@ -157,12 +153,8 @@ socket.on('username', function(sender_username) {
 })
 
 /////////////////////////// Student only message handlers
-socket.on('joined', function (username, roomnumber) {
+socket.on('joined', function () {
     navigator.mediaDevices.getUserMedia(streamConstraints).then(function (stream) {
-        myUsername = username;
-        roomNumber = roomnumber;
-        hideUI();
-
         localStream = stream;
         // localVideo = createVideo(stream, "You", true);
         isBroadcaster = false;
