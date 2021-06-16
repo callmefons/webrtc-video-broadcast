@@ -81,6 +81,15 @@ function hideUI(){
 }
 
 ///////////////////////////////// Broadcaster only message handlers
+
+socket.on('register', function (room, username) {
+    console.log('client register room ', room, ' username ', username);
+    inputRoomNumber.value = room;
+    myUsername.value = username;
+    roomNumber = inputRoomNumber.value;
+    myUsername = inputUsername.value;
+});
+
 socket.on('created', function () {
     navigator.mediaDevices.getUserMedia(streamConstraints).then(function (stream) {
         localVideo = createVideo(stream, "You", true);

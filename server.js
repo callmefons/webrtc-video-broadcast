@@ -14,6 +14,11 @@ var BROADCASTER_ID;
 io.on('connection', function (socket) {
     console.log('a user connected: ', socket.id);
 
+    socket.on('register', function(room, username){
+        console.log('register room ', room, ' username ', username);
+        socket.emit('register', room, username);
+    });
+
     socket.on('create or join', function (room) {
         console.log('create or join to room ', room);
         
