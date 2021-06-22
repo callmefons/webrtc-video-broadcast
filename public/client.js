@@ -4,7 +4,7 @@ var divLobby = document.getElementById("lobby")
 var inputUsername = document.getElementById("username");
 var inputRoomNumber = document.getElementById("roomNumber");
 var btnGoRoom = document.getElementById("goRoom");
-var divConsultingRoom = document.getElementById("consultingRoom");
+var divConferenceRoom = document.getElementById("conferenceRoom");
 var localVideo = document.getElementById("localVideo");
 
 // variables
@@ -62,7 +62,7 @@ btnGoRoom.onclick = function () {
 // message handlers
 function hideUI(){
     divLobby.style = "display: none;";
-    divConsultingRoom.style = "display: block;";
+    divConferenceRoom.style = "display: block;";
 }
 
 ///////////////////////////////// Broadcaster only message handlers
@@ -269,7 +269,7 @@ function createVideo(src, caption, isMuted)
     figCaption.appendChild(text)
     fig.appendChild(figCaption)
 
-    divConsultingRoom.appendChild(fig)
+    divConferenceRoom.appendChild(fig)
     return fig;
 }
 

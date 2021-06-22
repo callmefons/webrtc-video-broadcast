@@ -22,7 +22,6 @@ app.use(express.static('public'));
 app.get('/rtc', function(req, res) {
     const room = req.query.room;
     const username = req.query.username;
-
     res.render('index', {locals: {
         room: room,
         username: username
@@ -34,14 +33,8 @@ var BROADCASTER_ID;
 io.on('connection', function (socket) {
     console.log('a user connected: ', socket.id);
 
-    // socket.on('register', function(room, username){
-    //     console.log('register room ', room, ' username ', username);
-    //     socket.emit('register', room, username);
-    // });
-
     socket.on('create or join', function (room) {
         console.log('create or join to room ', room);
-        
         var myRoom = io.sockets.adapter.rooms[room] || { length: 0 };
         var numClients = myRoom.length;
 
@@ -51,6 +44,9 @@ io.on('connection', function (socket) {
             BROADCASTER_ID = socket.id;
             socket.join(room);
             socket.emit('created', room);
+            //broadcast to all members 
+            var messages = "broadcasting...";
+            socket.broadcast.emit('broadcast', messages);
         } else {
             socket.join(room);
             socket.emit('joined', room);
