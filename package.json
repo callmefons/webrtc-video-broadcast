@@ -21,6 +21,7 @@
   "homepage": "https://github.com/agilityfeat/webrtc-video-conference-tutorial#readme",
   "dependencies": {
     "express": "^4.16.4",
+    "express-es6-template-engine": "^2.2.3",
     "socket.io": "^2.4.0"
   }
 }

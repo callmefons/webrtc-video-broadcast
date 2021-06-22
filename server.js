@@ -1,6 +1,12 @@
 //requires
-const express = require('express');
-const app = express();
+const express = require('express'),
+  es6Renderer = require('express-es6-template-engine'),
+  app = express();
+
+app.engine('html', es6Renderer);
+app.set('views', 'views');
+app.set('view engine', 'html');
+
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
@@ -9,15 +15,29 @@ const port = process.env.PORT || 3000;
 // express routing
 app.use(express.static('public'));
 
+// app.get('/', function(req, res) {
+//     res.render('index', {locals: {title: 'FonLog Broadcasting!'}});
+// });
+
+app.get('/rtc', function(req, res) {
+    const room = req.query.room;
+    const username = req.query.username;
+
+    res.render('index', {locals: {
+        room: room,
+        username: username
+    }});
+});
+
 var BROADCASTER_ID;
 // signaling
 io.on('connection', function (socket) {
     console.log('a user connected: ', socket.id);
 
-    socket.on('register', function(room, username){
-        console.log('register room ', room, ' username ', username);
-        socket.emit('register', room, username);
-    });
+    // socket.on('register', function(room, username){
+    //     console.log('register room ', room, ' username ', username);
+    //     socket.emit('register', room, username);
+    // });
 
     socket.on('create or join', function (room) {
         console.log('create or join to room ', room);
