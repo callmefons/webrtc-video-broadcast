@@ -28,6 +28,7 @@ app.get('/rtc', function(req, res) {
     }});
 });
 
+
 var BROADCASTER_ID;
 // signaling
 io.on('connection', function (socket) {
@@ -45,11 +46,7 @@ io.on('connection', function (socket) {
             socket.join(room);
             socket.emit('created', room);
             //broadcast to all members 
-            var messages = "broadcasting...";
-            var messages2 = "broadcasting 2 ...";
-
-            socket.broadcast.emit('broadcast', messages);
-            socket.emit('broadcast', messages2);
+            socket.broadcast.emit('broadcast', true);
         } else {
             socket.join(room);
             socket.emit('joined', room);
@@ -93,3 +90,4 @@ io.on('connection', function (socket) {
 http.listen(port, function () {
     console.log('listening on', port);
 });
+
