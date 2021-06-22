@@ -46,7 +46,10 @@ io.on('connection', function (socket) {
             socket.emit('created', room);
             //broadcast to all members 
             var messages = "broadcasting...";
+            var messages2 = "broadcasting 2 ...";
+
             socket.broadcast.emit('broadcast', messages);
+            socket.emit('broadcast', messages2);
         } else {
             socket.join(room);
             socket.emit('joined', room);
