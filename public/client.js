@@ -1,14 +1,11 @@
 'use strict'
 // getting dom elements
-var divSelectRoom = document.getElementById("selectRoom");
-var divSelectName = document.getElementById("selectName")
+var divLobby = document.getElementById("lobby")
+var inputUsername = document.getElementById("username");
 var inputRoomNumber = document.getElementById("roomNumber");
 var btnGoRoom = document.getElementById("goRoom");
-var btnShowHideLocalVideo = document.getElementById("show/hide localVideo");
-var inputUsername = document.getElementById("username");
 var divConsultingRoom = document.getElementById("consultingRoom");
 var localVideo = document.getElementById("localVideo");
-
 
 // variables
 var roomNumber;
@@ -62,22 +59,10 @@ btnGoRoom.onclick = function () {
     }
 };
 
-// btnShowHideLocalVideo.onclick = function () {
-//     if (showLocalVideo){
-//         localVideo.style.display = "none";
-//         showLocalVideo = false;
-//     }
-//     else {
-//         localVideo.style.display = "block";
-//         showLocalVideo = true;
-//     }
-// };
-
 // message handlers
 function hideUI(){
-    divSelectRoom.style = "display: none;";
+    divLobby.style = "display: none;";
     divConsultingRoom.style = "display: block;";
-    divSelectName.style = "display: none;";
 }
 
 ///////////////////////////////// Broadcaster only message handlers

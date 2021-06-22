@@ -7,6 +7,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
     <title>RTC Broadcasting!</title>
 
@@ -15,16 +16,17 @@
     <div class="container">
         <h1>FonLog Broadcasting!</h1>
 
-        <div id="selectName">
-            <label> Type your name</label>
-            <input id="username" type="text" required readonly="readonly" value="${username}"/>
-        </div> 
-    
-        <div id="selectRoom">
-            <label>Type the room number</label>
-            <input id="roomNumber" type="text" required readonly="readonly" value="${room}"/>  
-           <button id="goRoom">Go</button>
-        </div>
+        <form id="lobby">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input id="username" type="text" class="form-control" required readonly="readonly" value="${username}">
+            </div>
+            <div class="form-group">
+              <label for="room">Room</label>
+              <input id="roomNumber" type="text" class="form-control" placeholder="room" required readonly="readonly" value="${room}">
+            </div>
+            <button id="goRoom" type="button" class="btn btn-primary" style="margin-top: 1rem;">Go</button>
+          </form>
     
         <div id="consultingRoom">
             <!-- <button id="show/hide localVideo">Show/Hide local video</button> -->
@@ -39,5 +41,4 @@
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
-   
 </body>
