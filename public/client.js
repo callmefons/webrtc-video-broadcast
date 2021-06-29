@@ -6,6 +6,7 @@ var inputRoomNumber = document.getElementById("roomNumber");
 // var btnLeaveRoom = document.getElementById("btnLeaveRoom");
 var divGoRoom = document.getElementById("goRoom");
 var btnGoRoom = document.getElementById("btnGoRoom");
+var btnClose = document.getElementById("btnClose");
 var divLeaveRoom = document.getElementById("leaveRoom");
 var divConferenceRoom = document.getElementById("conferenceRoom");
 var localVideo = document.getElementById("localVideo");
@@ -57,6 +58,11 @@ btnGoRoom.onclick = function () {
         socket.emit('create or join', roomNumber, myUsername);
         hideUI();
     }
+};
+
+btnClose.onclick = function () {
+    console.log("closeDialog")
+    socket.emit('closeDialog');
 };
 
 socket.on('broadcast', function () {

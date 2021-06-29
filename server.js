@@ -90,6 +90,11 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('clearRoom');
     });
 
+    socket.on('closeDialog', function(){
+        socket.emit('closeDialog');
+        socket.broadcast.emit('closeDialog');
+    });
+
 });
 
 // listener
