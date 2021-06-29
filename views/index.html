@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
-    <title>RTC Broadcasting!</title>
+    <title>FonLog Broadcasting!</title>
 
 </head>
 <body>
@@ -25,8 +25,15 @@
               <label for="room">Room</label>
               <input id="roomNumber" type="text" class="form-control" placeholder="room" required readonly="readonly" value="${room}">
             </div>
-            <button id="goRoom" type="button" class="btn btn-primary" style="margin-top: 1rem;">Go</button>
           </form>
+
+          <div id="goRoom" class="mt-1">
+            <button id="btnGoRoom" type="button" class="btn btn-primary">Go</button>
+          </div>
+
+          <div id="leaveRoom" class="mt-1 mb-1">
+            <!-- <button id="btnLeaveRoom" type="button" class="btn btn-primary">Leave</button> -->
+          </div>
     
         <div id="conferenceRoom">
             <!-- <button id="show/hide localVideo">Show/Hide local video</button> -->

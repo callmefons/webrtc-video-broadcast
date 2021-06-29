@@ -1,4 +1,3 @@
-//requires
 const express = require('express'),
   es6Renderer = require('express-es6-template-engine'),
   app = express();
@@ -15,10 +14,6 @@ const port = process.env.PORT || 3000;
 // express routing
 app.use(express.static('public'));
 
-// app.get('/', function(req, res) {
-//     res.render('index', {locals: {title: 'FonLog Broadcasting!'}});
-// });
-
 app.get('/rtc', function(req, res) {
     const room = req.query.room;
     const username = req.query.username;
@@ -34,8 +29,8 @@ var BROADCASTER_ID;
 io.on('connection', function (socket) {
     console.log('a user connected: ', socket.id);
 
-    socket.on('create or join', function (room) {
-        console.log('create or join to room ', room);
+    socket.on('create or join', function (room, username) {
+        console.log('create or join to room ', room, ' username ', username);
         var myRoom = io.sockets.adapter.rooms[room] || { length: 0 };
         var numClients = myRoom.length;
 
@@ -46,7 +41,7 @@ io.on('connection', function (socket) {
             socket.join(room);
             socket.emit('created', room);
             //broadcast to all members 
-            socket.broadcast.emit('broadcast', true);
+            socket.broadcast.emit('broadcast', room, username);
         } else {
             socket.join(room);
             socket.emit('joined', room);
@@ -80,8 +75,17 @@ io.on('connection', function (socket) {
     socket.on('answer', function(event, sender_id){
         socket.broadcast.to(BROADCASTER_ID).emit('answer',event.sdp, String(sender_id));
     });
-    socket.on('disconnect', function(){
-        socket.broadcast.to(socket.rooms).emit('user_leave', socket.id);
+
+    socket.on('clearRoom', function(room){
+        let roomObj = io.sockets.adapter.rooms[room];
+        if (roomObj) {
+            // now kick everyone out of this room
+            Object.keys(roomObj.sockets).forEach(function(id) {
+                io.sockets.connected[id].leave(room);
+            })
+        }
+        socket.emit('clearRoom');
+        socket.broadcast.emit('clearRoom');
     });
 
 });

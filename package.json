@@ -1,7 +1,7 @@
 {
-  "name": "webrtc-video-conference-tutorial",
+  "name": "fonlog-webrtc-broadcasting",
   "version": "1.0.0",
-  "description": "This tutorial is divided in three versions:",
+  "description": "a demo for using video broadcasting on FonLog",
   "main": "server.js",
   "scripts": {
     "build": "echo a",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/agilityfeat/webrtc-video-conference-tutorial.git"
+    "url": ""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/agilityfeat/webrtc-video-conference-tutorial/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/agilityfeat/webrtc-video-conference-tutorial#readme",
+  "homepage": "",
   "dependencies": {
     "express": "^4.16.4",
     "express-es6-template-engine": "^2.2.3",
