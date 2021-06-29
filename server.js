@@ -86,8 +86,7 @@ io.on('connection', function (socket) {
         }
 
         console.log("clearRoom");        
-        // socket.emit('clearRoom');
-        socket.broadcast.to(BROADCASTER_ID).emit('clearRoom');
+        socket.emit('clearRoom');
         socket.broadcast.emit('clearRoom');
     });
 
