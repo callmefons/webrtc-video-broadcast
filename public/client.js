@@ -59,8 +59,12 @@ btnGoRoom.onclick = function () {
     }
 };
 
+socket.on('broadcast', function () {
+    console.log("broadcast");
+});
+
 socket.on('clearRoom', function () {
-    location.reload()
+    // location.reload()
     console.log("clearRoom");
 });
 
