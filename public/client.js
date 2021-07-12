@@ -4,7 +4,7 @@ var divLobby = document.getElementById("lobby")
 var inputUsername = document.getElementById("username");
 var inputRoomNumber = document.getElementById("roomNumber");
 // var btnLeaveRoom = document.getElementById("btnLeaveRoom");
-var divGoRoom = document.getElementById("goRoom");
+// var divGoRoom = document.getElementById("goRoom");
 var btnGoRoom = document.getElementById("btnGoRoom");
 var btnClose = document.getElementById("btnClose");
 var divLeaveRoom = document.getElementById("leaveRoom");
@@ -76,7 +76,7 @@ socket.on('clearRoom', function () {
 
 function hideUI(){
     divLobby.style = "display: none;";
-    divGoRoom.style = "display: none;";
+    // divGoRoom.style = "display: none;";
     divConferenceRoom.style = "display: block;";
     divLeaveRoom.style = "display: block;";
     createLeaveBtn();
