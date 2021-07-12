@@ -262,15 +262,34 @@ function onTrackHandler(event) {
 
 function createVideo(src, caption, isMuted)
 {
+    // let fig = document.createElement("figure")
+
+    // let video = document.createElement("video");
+    // video.setAttribute("id", "localVideo");
+    // video.srcObject = src;
+    // video.autoplay = true;
+    // video.controls = true;
+    // video.muted = isMuted;
+    // video.poster = "http://rmhc.org.sg/wp-content/uploads/tvc//vidloading.gif"
+    // fig.appendChild(video)
+    
+    // let figCaption = document.createElement("figcaption")
+    // let text = document.createTextNode(caption)
+    // figCaption.appendChild(text)
+    // fig.appendChild(figCaption)
+
+    // divConferenceRoom.appendChild(fig)
+    // return fig;
+
     let fig = document.createElement("figure")
 
-    let video = document.createElement("video");
-    video.setAttribute("id", "localVideo");
+    let video = document.createElement("audio");
+    video.setAttribute("id", "localAudio");
     video.srcObject = src;
     video.autoplay = true;
     video.controls = true;
     video.muted = isMuted;
-    video.poster = "http://rmhc.org.sg/wp-content/uploads/tvc//vidloading.gif"
+    // video.poster = "http://rmhc.org.sg/wp-content/uploads/tvc//vidloading.gif"
     fig.appendChild(video)
     
     let figCaption = document.createElement("figcaption")
